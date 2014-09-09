@@ -2,17 +2,57 @@
 
 public class GameManager : MonoBehaviour 
 {
-    private Canon currentCanon;
+	private bool touching_ = false;
+
+	private Bird bird_;
+	private OurCamera cam_;
+
+	static private float lastDeltaTime_;
+
+	static public Canon canonBaseWeak;
+	static public Canon canonBaseMedium;
+	static public Canon canonBaseStrong;
+
+//***************************************
+// Unity functions
+
+	void Start()
+	{
+		Debug.Log("Init GM");
+		//Rigidbody rb = GetComponent<Rigidbody>();
+
+		bird_ = GameObject.FindGameObjectWithTag("Player").GetComponent<Bird>();
+		cam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<OurCamera>();
+
+		cam_.SetTarget(bird_);
+	}
 
     void Update()
     {
-        if (ScreenJustTouched() && currentCanon != null)
+		lastDeltaTime_ = Time.deltaTime;
+		if (ScreenJustTouched() && bird_ != null)
         {
-            currentCanon.Fire();
+			bird_.Shoot();
         }
     }
 
-    private bool touching = false;
+//***************************************
+// Unity functions
+
+	void StartNewGame()
+	{
+		cam_.Reset();
+	}
+
+
+//***************************************
+// Unity functions
+
+	static public float getDeltaTime()
+	{
+		return lastDeltaTime_; 
+	}
+	
     private bool ScreenJustTouched()
     {
         int count = 0;
@@ -24,21 +64,17 @@ public class GameManager : MonoBehaviour
 #else
 			count = Input.touchCount;
 #endif
-        if (count > 0 && !touching)
+		if (count > 0 && !touching_)
         {
-            touching = true;
+			touching_ = true;
             return true;
         }
         else if (count > 0)
         {
-            touching = false;
+			touching_ = false;
         }
         
         return false;
     }
 
-    public void SetCurrentCanon(Canon canon)
-    {
-        currentCanon = canon;
-    }
 }
