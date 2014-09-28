@@ -26,13 +26,11 @@ public class Bird : Shootable
 
 //***************************************
 // Other functions
-
-
+	
 	public void SetLastCanon(Canon canon)
 	{
 		lastCanon = canon;
 	}
-
 
 	public void Shoot()
 	{
@@ -45,7 +43,7 @@ public class Bird : Shootable
 		}
 		else
 		{
-			//jump
+			// jump
 			rigidbody2D.isKinematic = false;
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.AddForce(transform.up * 500);

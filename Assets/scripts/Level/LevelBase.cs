@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 public class LevelBase : MonoBehaviour
 {
-	private List<Canon> canons_;
+	private List<Canon> canons_ = new List<Canon> ();
 	private Canon lastCanon;
 
-	Transform startPosition_;
+	protected Vector4 startPosition_;
 	
 //***************************************
 // Unity functions
 
 	void Start()
 	{
-		canons_ = new List<Canon> ();
+		// canons_ = new List<Canon> ();
 	}
 	
 	void Update()
@@ -25,12 +25,12 @@ public class LevelBase : MonoBehaviour
 //***************************************
 // Our Fonctions
 	
-	void Init(Canon lastCanon, Transform startPosition)
+	public virtual void Init(Canon lastCanon, Vector4 coordonates)
 	{
-		
+		startPosition_ = coordonates;
 	}
 
-	protected void AddCanon(Canon canon)
+	public void AddCanon(Canon canon)
 	{
 		canons_.Add(canon);
 	}

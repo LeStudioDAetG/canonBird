@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {
+	static public GameManager instance;
+	static private float lastDeltaTime_;
+
 	private bool touching_ = false;
 
 	private Bird bird_;
 	private OurCamera cam_;
 
-	static private float lastDeltaTime_;
+	public GameObject canonBaseWeak;
+	public GameObject canonBaseMedium;
+	public GameObject canonBaseStrong;
 
-	static public Canon canonBaseWeak;
-	static public Canon canonBaseMedium;
-	static public Canon canonBaseStrong;
+
+
+	public LevelStart lvlStart;
 
 //***************************************
 // Unity functions
@@ -20,11 +26,20 @@ public class GameManager : MonoBehaviour
 	{
 		Debug.Log("Init GM");
 		//Rigidbody rb = GetComponent<Rigidbody>();
+		instance = this;
 
 		bird_ = GameObject.FindGameObjectWithTag("Player").GetComponent<Bird>();
 		cam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<OurCamera>();
 
 		cam_.SetTarget(bird_);
+
+		// Need to find a way to know what space we have to display level
+		/*
+		Camera camLogic = cam_.GetComponents<Camera> ();
+		camLogic.ViewportToWorldPoint ();
+		*/
+
+		StartNewGame ();
 	}
 
     void Update()
@@ -42,11 +57,21 @@ public class GameManager : MonoBehaviour
 	void StartNewGame()
 	{
 		cam_.Reset();
+
+		// Compute Level size
+		Vector4 levelSize = new Vector4 ();
+		//levelSize.x = cam_.GetComponents<Camera>().S
+		levelSize.x = -6; // Start x
+		levelSize.y = -4; // Start y
+		levelSize.w = 12; // Width
+		levelSize.z = 50; // Height
+
+		lvlStart.Init (null, levelSize);
 	}
 
 
 //***************************************
-// Unity functions
+// 
 
 	static public float getDeltaTime()
 	{

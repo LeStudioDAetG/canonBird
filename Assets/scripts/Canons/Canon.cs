@@ -26,4 +26,9 @@ public class Canon : MonoBehaviour
 			ammo.rigidbody2D.AddForce(transform.up * fireForce);
         }
     }
+	
+	public void Place(float x, float y)
+	{
+		transform.position = new Vector3 (x, y, transform.position.z);
+	}
 }
