@@ -14,10 +14,10 @@ public class GameManager : MonoBehaviour
 	public GameObject canonBaseWeak;
 	public GameObject canonBaseMedium;
 	public GameObject canonBaseStrong;
-
-
-
+	
 	public LevelStart lvlStart;
+
+	private bool wasTouching_;
 
 //***************************************
 // Unity functions
@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 		Debug.Log("Init GM");
 		//Rigidbody rb = GetComponent<Rigidbody>();
 		instance = this;
+		wasTouching_ = false;
 
 		bird_ = GameObject.FindGameObjectWithTag("Player").GetComponent<Bird>();
 		cam_ = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<OurCamera>();
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 		lastDeltaTime_ = Time.deltaTime;
-		if (ScreenJustTouched() && bird_ != null)
+		if (!ScreenJustTouched() && wasTouching_ && bird_ != null)
         {
 			bird_.Shoot();
         }
@@ -82,19 +83,20 @@ public class GameManager : MonoBehaviour
     {
         int count = 0;
 #if UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
-        if (Input.GetMouseButton(0))
+		if (Input.GetMouseButtonDown(0))
         {
             count = 1;
         }
 #else
 			count = Input.touchCount;
 #endif
+		wasTouching_ = touching_;
 		if (count > 0 && !touching_)
         {
 			touching_ = true;
             return true;
         }
-        else if (count > 0)
+        else
         {
 			touching_ = false;
         }

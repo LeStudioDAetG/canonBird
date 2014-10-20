@@ -8,6 +8,9 @@ public class Bird : Shootable
 	public Canon lastCanon;
 
 
+	private bool firsJump_;
+
+
 //***************************************
 // Unity functions
 
@@ -17,11 +20,16 @@ public class Bird : Shootable
 		//Rigidbody rb = GetComponent<Rigidbody>();
 		rigidbody2D.isKinematic = true;
 		rigidbody2D.WakeUp();
+
+		firsJump_ = true;
 	}
 
 	void Update()
 	{
-		
+		if (currentCanon)
+		{
+			transform.rotation = currentCanon.getRotation();
+		}
 	}
 
 //***************************************
@@ -41,12 +49,13 @@ public class Bird : Shootable
 			lastCanon = currentCanon;
 			currentCanon = null;
 		}
-		else
+		else if(firsJump_)
 		{
 			// jump
 			rigidbody2D.isKinematic = false;
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.AddForce(transform.up * 500);
+			firsJump_ = false;
 		}
 	}
 
