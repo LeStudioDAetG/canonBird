@@ -18,8 +18,8 @@ public class Bird : Shootable
 	{
 		Debug.Log("Init Pioupiou");
 		//Rigidbody rb = GetComponent<Rigidbody>();
-		rigidbody2D.isKinematic = true;
-		rigidbody2D.WakeUp();
+		GetComponent<Rigidbody2D>().isKinematic = true;
+		GetComponent<Rigidbody2D>().WakeUp();
 
 		firsJump_ = true;
 	}
@@ -52,9 +52,9 @@ public class Bird : Shootable
 		else if(firsJump_)
 		{
 			// jump
-			rigidbody2D.isKinematic = false;
-			rigidbody2D.velocity = Vector2.zero;
-			rigidbody2D.AddForce(transform.up * 500);
+			GetComponent<Rigidbody2D>().isKinematic = false;
+			GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			GetComponent<Rigidbody2D>().AddForce(transform.up * 500);
 			firsJump_ = false;
 		}
 	}
@@ -65,7 +65,7 @@ public class Bird : Shootable
 		if (canon)
 		{
 			transform.position = canon.transform.position;
-			rigidbody2D.isKinematic = true;
+			GetComponent<Rigidbody2D>().isKinematic = true;
 			currentCanon = canon;
 		}
 	}

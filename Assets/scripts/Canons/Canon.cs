@@ -41,9 +41,9 @@ public class Canon : MonoBehaviour
         {
 			Vector3 dir = Quaternion.Euler(0, transform.rotation.z, 0) * transform.up;
 			ammo.transform.position = transform.position;
-			ammo.rigidbody2D.isKinematic = false;
-			ammo.rigidbody2D.velocity = Vector2.zero;
-			ammo.rigidbody2D.AddForce(dir * fireForce);
+			ammo.GetComponent<Rigidbody2D>().isKinematic = false;
+			ammo.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+			ammo.GetComponent<Rigidbody2D>().AddForce(dir * fireForce);
 
 			//
 			rotationLockFor = 4;
